@@ -2,13 +2,18 @@ import React, { useState, useEffect } from 'react';
 // prettier-ignore
 import { Box, CircularProgress, useMediaQuery, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
+import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
 
 import { useGetMoviesQuery } from '../../services/TMDB';
 // eslint-disable-next-line
 import { MovieList } from '..';
 
 const Movies = () => {
-  const { data, error, isFetching } = useGetMoviesQuery();
+  const [page, setPage] = useState(1);
+  // prettier-ignore
+  const { genreIdOrCategoryName } = useSelector((state) => state.currentGenreOrCategory);
+  // prettier-ignore
+  const { data, error, isFetching } = useGetMoviesQuery({ genreIdOrCategoryName, page });
   if (isFetching) {
     // prettier-ignore
     return (
